@@ -78,7 +78,61 @@ EFI_STATUS LogInitial(EFI_HANDLE ImageHandle){
         Print(L"SUCCESS:Open the File.\n");
     }
     #endif
+EFI_STATUS LogTip(CHAR8 *Message){
+    EFI_STATUS Status = EFI_SUCCESS;
+    UINTN MsgLen = AsciiStrLen(Message);
 
+    Status = LogFile->Write(
+        LogFile,
+        &MsgLen,
+        Message
+    );
+
+    #ifdef DEBUG
+    if(EFI_ERROR(Status)){
+        Print(L"ERROR:Failed to Write LogFile.\n");
+        return Status;
+    }
+    #endif
+
+    return Status;
+}
+
+EFI_STATUS LogError(EFI_STATUS Code){
+    EFI_STATUS Status = EFI_SUCCESS;
+
+    switch (Code)
+    {
+    case EFI_INVALID_PARAMETER:
+        Status = LogTip("Error:EFI_INVALID_PARAMETER.\n");
+        break;
+    case EFI_NOT_FOUND:
+        Status = LogTip("Error:EFI_NOT_FOUND.\n");
+        break;
+    case EFI_OUT_OF_RESOURCES:
+        Status = LogTip("Error:EFI_OUT_OF_RESOURCES.\n");
+        break;
+    default:
+        Status = LogTip("Error:Something went wrong.\n");
+        break;
+    }
+
+    return Status;
+}
+
+EFI_STATUS Close(){
+    EFI_STATUS Status = EFI_SUCCESS;
+    Status = LogFile->Close(LogFile);
+
+    #ifdef DEBUG
+    if(EFI_ERROR(Status)){
+        Print(L"ERROR:Failed to Close LogFile.\n");
+        return Status;
+    }
+    else{
+        Print(L"SUCCESS:Close the LogFIle.\n");
+    }
+    #endif
 
     return Status;
 }
