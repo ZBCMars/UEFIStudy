@@ -78,6 +78,11 @@ EFI_STATUS LogInitial(EFI_HANDLE ImageHandle){
         Print(L"SUCCESS:Open the File.\n");
     }
     #endif
+
+
+    return Status;
+}
+
 EFI_STATUS LogTip(CHAR8 *Message){
     EFI_STATUS Status = EFI_SUCCESS;
     UINTN MsgLen = AsciiStrLen(Message);
@@ -136,3 +141,4 @@ EFI_STATUS Close(){
 
     return Status;
 }
+
