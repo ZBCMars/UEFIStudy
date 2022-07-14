@@ -47,3 +47,44 @@ EFI_STATUS GetGopHandle(
 
     return Status;
 }   
+
+EFI_STATUS SetVideoMode(
+    IN EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop
+){
+    EFI_STATUS Status = EFI_SUCCESS;
+
+    EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *ModeInfo;
+    UINTN ModeInfoSize = sizeof(EFI_GRAPHICS_OUTPUT_MODE_INFORMATION);
+    UINTN H = 0;
+    UINTN V = 0;
+    UINTN ModeIndex = 0;
+
+    for(UINTN i = 0; i < Gop->Mode->MaxMode; i++){
+        Status = Gop->QueryMode(
+            Gop,
+            i,
+            &ModeInfoSize,
+            &ModeInfo
+        );
+        H = ModeInfo->HorizontalResolution;
+        V = ModeInfo->VerticalResolution;
+
+        if(((H == 1024) && (V == 768)) || ((H == 1440) && (V == 900))){
+            ModeIndex = i;
+        }
+    }
+
+    Status = Gop->SetMode(Gop, ModeIndex);
+
+    #ifdef DEBUG
+    if(EFI_ERROR(Status)){
+        Print(L"ERROR:Failed to SetMode.\n");
+        return Status;
+    }
+    else{
+        Print(L"SUCCESS:SetModeIndex to %d.\n", ModeIndex);
+    }
+    #endif
+
+    return Status;
+}
