@@ -9,6 +9,9 @@
 [Sources]
     ToyBoot.c
     Log.c
+    Video.c
+    Motion.c
+    File.c
 
 [Packages]
     MdePkg/MdePkg.dec
