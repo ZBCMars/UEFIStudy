@@ -35,6 +35,14 @@ EFI_STATUS DrawLogo(
 
     EFI_PHYSICAL_ADDRESS LogoAddress;
     Status = ReadFile(Logo, &LogoAddress);
+    
+    BMP_CONFIG BmpConfig;
+    Status = BmpTransform(LogoAddress, &BmpConfig);
+
+    UINTN X = (Hor - BmpConfig.Width) / 2;
+    UINTN Y = (Ver = BmpConfig.Height) / 2;
+
+    Status = DrawBmp(Gop, BmpConfig, X, Y);
 
     return Status;
 }
