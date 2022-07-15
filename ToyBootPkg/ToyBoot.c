@@ -29,6 +29,8 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
         LogTip("Video is good.\n");
     }
     #endif
+    
+    Status = DrawLogo(ImageHandle);
 
     return Status;
 }
