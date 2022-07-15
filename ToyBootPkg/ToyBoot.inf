@@ -12,6 +12,7 @@
     Video.c
     Motion.c
     File.c
+    Tool.c
 
 [Packages]
     MdePkg/MdePkg.dec
@@ -19,3 +20,6 @@
 [LibraryClasses]
     UefiApplicationEntryPoint
     UefiLib
+
+[Guids]
+    gEfiFileInfoGuid
