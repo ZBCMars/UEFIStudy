@@ -46,3 +46,38 @@ EFI_STATUS DrawLogo(
 
     return Status;
 }
+
+EFI_STATUS DrawStep(
+    IN UINTN Step
+){
+    EFI_STATUS Status = EFI_SUCCESS;
+
+    UINTN BlockWidth = Gop->Mode->Info->HorizontalResolution >> 6;
+    UINTN BlockHeight = Gop->Mode->Info->VerticalResolution >> 6;
+    UINTN StartX = (Gop->Mode->Info->HorizontalResolution - (BlockWidth + GAP) * 10 - GAP) / 2;
+    UINTN StartY = (Gop->Mode->Info->VerticalResolution * 3) >> 2;
+
+    UINTN X = StartX + (BlockWidth + GAP) * Step;
+
+    Status = Gop->Blt(
+        Gop,
+        &Grey,
+        EfiBltVideoFill,
+        0,0,
+        X,StartY,
+        BlockWidth,BlockHeight,
+        0
+    );
+
+    #ifdef DEBUG
+    if(EFI_ERROR(Status)){
+        Print(L"ERROR:Failed to Blt Step.\n");
+        return Status;
+    }
+    else{
+        Print(L"SUCCESS:Blt Step.\n");
+    }
+    #endif
+
+    return Status;
+}
