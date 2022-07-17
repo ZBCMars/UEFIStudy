@@ -45,6 +45,13 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
         LogTip("Step is good.\n");
     }
     #endif
+    
+    EFI_FILE_PROTOCOL *Bin;
+    Status = GetFileHandle(ImageHandle, L"Kernel.bin", &Bin);
+    EFI_PHYSICAL_ADDRESS BinAddress;
+    Status = ReadFile(Bin, &BinAddress);
+
+    asm("jmp %0"::"m"(BinAddress));
 
     return Status;
 }
