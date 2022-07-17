@@ -31,6 +31,20 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
     #endif
     
     Status = DrawLogo(ImageHandle);
+    
+    
+    for(UINTN i = 0; i < 10; i++){
+        Status = DrawStep(i);
+    }
+
+    #ifdef LOG
+    if(EFI_ERROR(Status)){
+        LogError(Status);
+    }
+    else{
+        LogTip("Step is good.\n");
+    }
+    #endif
 
     return Status;
 }
