@@ -29,13 +29,10 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
         LogTip("Video is good.\n");
     }
     #endif
+    DrawStep(Step++);
+    DrawStep(Step++);
     
     Status = DrawLogo(ImageHandle);
-    
-    
-    for(UINTN i = 0; i < 10; i++){
-        Status = DrawStep(i);
-    }
 
     #ifdef LOG
     if(EFI_ERROR(Status)){
@@ -45,13 +42,44 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
         LogTip("Step is good.\n");
     }
     #endif
+    DrawStep(Step++);
     
+    EFI_PHYSICAL_ADDRESS KernelEntryPoint;
+    Status = Relocate(ImageHandle, L"\\Kernel.elf", &KernelEntryPoint);
+    #ifdef LOG
+    if(EFI_ERROR(Status)){
+        LogError(Status);
+    }
+    else{
+        LogTip("Kernel Entry Get.\n");
+    }
+    #endif
+    DrawStep(Step++);
+
+    /*
+    int (*KernelEntry)();
+    KernelEntry = (int (*)())KernelEntryPoint;
+    int X = KernelEntry();
+    Print(L"Return value from Kernel = %d.\n", X);
+    */
+
+    BOOT_CONFIG BootConfig;
+    BootConfig.FrameBufferBase = VideoConfig.FrameBufferBase;
+    BootConfig.FrameBufferSize = VideoConfig.FrameBufferSize;
+
+    UINT64 (*KernelEntry)(BOOT_CONFIG *BootConfig);
+    KernelEntry = (UINT64 (*)(BOOT_CONFIG *BootConfig))KernelEntryPoint;
+    UINT64 PassBack = KernelEntry(&BootConfig);
+    Print(L"PassBack = 0x%llX.\n", PassBack);
+
+    /*
     EFI_FILE_PROTOCOL *Bin;
     Status = GetFileHandle(ImageHandle, L"Kernel.bin", &Bin);
     EFI_PHYSICAL_ADDRESS BinAddress;
     Status = ReadFile(Bin, &BinAddress);
 
     asm("jmp %0"::"m"(BinAddress));
+    */
 
     return Status;
 }
