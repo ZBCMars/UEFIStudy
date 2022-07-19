@@ -13,6 +13,7 @@
     Motion.c
     File.c
     Tool.c
+    Elf.c
 
 [Packages]
     MdePkg/MdePkg.dec
