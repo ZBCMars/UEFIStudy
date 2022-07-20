@@ -64,8 +64,7 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
     */
 
     BOOT_CONFIG BootConfig;
-    BootConfig.FrameBufferBase = VideoConfig.FrameBufferBase;
-    BootConfig.FrameBufferSize = VideoConfig.FrameBufferSize;
+    BootConfig.VideoConfig = VideoConfig;
 
     UINT64 (*KernelEntry)(BOOT_CONFIG *BootConfig);
     KernelEntry = (UINT64 (*)(BOOT_CONFIG *BootConfig))KernelEntryPoint;
