@@ -2,6 +2,5 @@
 #include "Motion.h"
 
 typedef struct{
-    EFI_PHYSICAL_ADDRESS FrameBufferBase;
-    UINT64               FrameBufferSize;
+    VIDEO_CONFIG VideoConfig;
 } BOOT_CONFIG;
