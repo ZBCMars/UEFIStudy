@@ -5,5 +5,6 @@ At present, there is a preliminary graphical interactive interface for booting, 
 
 Current OS development progress:
 * Interface for Shell
+* Can print single letter
 
 This is the source code under UEFI specification and EDK2.
