@@ -26,6 +26,16 @@ typedef struct{
 
 typedef struct
 {
+    UINTN Size;
+    UINTN PageSize;
+    UINTN Width;
+    UINTN Height;
+    UINTN Offset;
+    UINT64 PixelStart;
+} BMP_CONFIG;
+
+typedef struct
+{
     VIDEO_CONFIG VideoConfig;
     BMP_CONFIG   AsciiBmp;
 } BOOT_CONFIG;
