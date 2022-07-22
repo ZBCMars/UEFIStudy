@@ -16,6 +16,11 @@ int ShellInitial(){
     BackGround.End.X = 1420;
     BackGround.End.Y = 880;
     DrawBlock(BackGround);
+    
+    POINT Dest;
+    Dest.X = 30;
+    Dest.Y = 78;
+    UINT32 Output = DrawLetter('T', Dest);
 
     if(Base.Setup.Outlines){
         BLOCK Outline;
