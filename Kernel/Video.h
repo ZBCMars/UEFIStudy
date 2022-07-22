@@ -24,3 +24,4 @@ typedef struct{
 int VideoInitial(BOOT_CONFIG *BootConfig);
 int DrawPixel(PIXEL Pixel);
 int DrawBlock(BLOCK Block);
+int DrawLetter(UINT8 Ascii, POINT Destination);
