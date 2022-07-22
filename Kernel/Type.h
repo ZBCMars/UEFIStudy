@@ -27,5 +27,6 @@ typedef struct{
 typedef struct
 {
     VIDEO_CONFIG VideoConfig;
+    BMP_CONFIG   AsciiBmp;
 } BOOT_CONFIG;
 #pragma pack()
