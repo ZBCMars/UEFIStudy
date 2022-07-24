@@ -5,6 +5,7 @@ UINT64 KernelStart(BOOT_CONFIG *BootConfig){
     VideoInitial(BootConfig);
     ShellInitial();
     
+    /*
     char String[20];
     String[0] = 'z';
     String[1] = 'b';
@@ -14,6 +15,9 @@ UINT64 KernelStart(BOOT_CONFIG *BootConfig){
     PrintStr(String);
 
     PrintHex(0x123456789ABCDEF);
+    */
+
+    PrintDec(BootConfig->MemoryMap.MapKey);
 
     return PassBack;
 }
