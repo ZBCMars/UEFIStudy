@@ -1,6 +1,4 @@
-#include <Uefi.h>
-#include <Library/UefiLib.h>
-#include <Library/UefiBootServicesTableLib.h>
+#include "ToyBoot.h"
 
 EFI_STATUS
 EFIAPI
@@ -68,6 +66,14 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 
     UINT64 (*KernelEntry)(BOOT_CONFIG *BootConfig);
     KernelEntry = (UINT64 (*)(BOOT_CONFIG *BootConfig))KernelEntryPoint;
+    
+    BootConfig.MemoryMap.MapSize = 4096;
+    BootConfig.MemoryMap.Buffer = NULL;
+    BootConfig.MemoryMap.MapKey = 0;
+    BootConfig.MemoryMap.DescriptorSize = 0;
+    BootConfig.MemoryMap.DescriptorVersion = 0;
+    Status = ByeBootService(ImageHandle, &BootConfig.MemoryMap);
+    
     UINT64 PassBack = KernelEntry(&BootConfig);
     Print(L"PassBack = 0x%llX.\n", PassBack);
 
@@ -79,6 +85,37 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 
     asm("jmp %0"::"m"(BinAddress));
     */
+
+    return Status;
+}
+
+EFI_STATUS ByeBootService(
+    IN EFI_HANDLE ImageHandle,
+    OUT MEMORY_MAP *MemoryMap
+){
+    EFI_STATUS Status = EFI_SUCCESS;
+
+    Status = gBS->AllocatePool(EfiLoaderData, MemoryMap->MapSize, &MemoryMap->Buffer);
+
+    if(EFI_ERROR(Status)){
+        Print(L"ERROR:Failed to AllocatePool for MemoryMap.\n");
+        return Status;
+    }
+
+    Status = gBS->GetMemoryMap(
+        &MemoryMap->MapSize,
+        (EFI_MEMORY_DESCRIPTOR *)MemoryMap->Buffer,
+        &MemoryMap->MapKey,
+        &MemoryMap->DescriptorSize,
+        &MemoryMap->DescriptorVersion
+    );
+
+    Status = gBS->ExitBootServices(ImageHandle, MemoryMap->MapKey);
+
+    if(EFI_ERROR(Status)){
+        Print(L"ERROR:Failed to ExitBootServices.\n");
+        return Status;
+    }
 
     return Status;
 }
