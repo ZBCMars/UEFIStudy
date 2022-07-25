@@ -5,6 +5,8 @@ UINT64 KernelStart(BOOT_CONFIG *BootConfig){
     VideoInitial(BootConfig);
     ShellInitial();
     
+    //MemInitial(BootConfig);
+    
     /*
     char String[20];
     String[0] = 'z';
