@@ -25,6 +25,17 @@ typedef struct{
 
 typedef struct
 {
+    UINT32  Type;
+    UINT32  ReservedA;
+    EFI_PHYSICAL_ADDRESS PhysicalStart;
+    EFI_VIRTUAL_ADDRESS  VirtualStart;
+    UINT64  NumberOfPages;
+    UINT64  Attribute;
+    UINT64  ReservedB;
+} EFI_MEMORY_DESCRIPTOR;
+
+typedef struct
+{
     UINTN Size;
     UINTN PageSize;
     UINTN Width;
