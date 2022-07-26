@@ -5,6 +5,7 @@ EFIAPI
 UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
     EFI_STATUS Status = EFI_SUCCESS;
+    UINT8 Step = 1;
 
     #ifdef LOG
     Status = LogInitial(ImageHandle);
@@ -67,7 +68,7 @@ UefiMain(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
     UINT64 (*KernelEntry)(BOOT_CONFIG *BootConfig);
     KernelEntry = (UINT64 (*)(BOOT_CONFIG *BootConfig))KernelEntryPoint;
     
-    BootConfig.MemoryMap.MapSize = 4096;
+    BootConfig.MemoryMap.MapSize = 8192;
     BootConfig.MemoryMap.Buffer = NULL;
     BootConfig.MemoryMap.MapKey = 0;
     BootConfig.MemoryMap.DescriptorSize = 0;
