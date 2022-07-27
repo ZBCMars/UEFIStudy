@@ -13,5 +13,6 @@ Current OS development progress:
 * Can print single letter
   * Can print string, HEX and DEC number
 * Get MemoryMap from OS Loader
+  * Clear memory and merge free memory, get new MemoryMap for OS.
 
 This is the source code under UEFI specification and EDK2.
